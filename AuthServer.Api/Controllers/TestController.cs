@@ -13,7 +13,7 @@ namespace AuthServer.Api.Controllers
         [HttpGet("Test")]
         public IActionResult Test()
         {
-            return Ok();
+            return Ok(new { message= "User Authenticated", code = 200});
         }
 
         [HttpGet("AuthorizedTest")]
@@ -26,11 +26,9 @@ namespace AuthServer.Api.Controllers
 
             var jwt = new JwtSecurityToken(jwtTokenString);
 
-            var response = $"Authenticated!{Environment.NewLine}";
+            //response += $"{Environment.NewLine}Exp Time: {jwt.ValidTo.ToLongTimeString()}, Time: {DateTime.UtcNow.ToLongTimeString()}";
 
-            response += $"{Environment.NewLine}Exp Time: {jwt.ValidTo.ToLongTimeString()}, Time: {DateTime.UtcNow.ToLongTimeString()}";
-
-            return Ok(response);
+            return Ok(new {message= "User Authenticated", code=200, ExpirationTime=$"{jwt.ValidTo.ToLongTimeString()}" });
         }
     }
 }

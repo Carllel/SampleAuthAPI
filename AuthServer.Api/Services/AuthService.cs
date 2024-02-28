@@ -42,7 +42,7 @@ namespace AuthServer.Api.Services
             }
 
             response.IsLogedIn = true;
-            response.JwtToken = this.GenerateTokenString(identityUser.Email);
+            response.Token = this.GenerateTokenString(identityUser.Email);
             response.RefreshToken = this.GenerateRefreshTokenString();
 
             identityUser.RefreshToken = response.RefreshToken;
@@ -54,7 +54,7 @@ namespace AuthServer.Api.Services
 
         public async Task<LoginResponse> RefreshToken(RefreshTokenModel model)
         {
-            var principal = GetTokenPrincipal(model.JwtToken);
+            var principal = GetTokenPrincipal(model.Token);
 
             var response = new LoginResponse();
             if (principal?.Identity?.Name is null)
@@ -66,7 +66,7 @@ namespace AuthServer.Api.Services
                 return response;
 
             response.IsLogedIn = true;
-            response.JwtToken = this.GenerateTokenString(identityUser.Email);
+            response.Token = this.GenerateTokenString(identityUser.Email);
             response.RefreshToken = this.GenerateRefreshTokenString();
 
             identityUser.RefreshToken = response.RefreshToken;
@@ -118,7 +118,7 @@ namespace AuthServer.Api.Services
 
             var securityToken = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddSeconds(20),
+                expires: DateTime.Now.AddMinutes(20),
                 signingCredentials: signingCred
                 );
 

@@ -1,0 +1,234 @@
+{
+	"info": {
+		"_postman_id": "0f56c857-86cf-41d0-9ebc-c13c21c2bc0d",
+		"name": "SampleAuthAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20005609"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"ccube10\",\r\n    \"password\": \"pass123\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5092/api/Auth/Register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5092",
+					"path": [
+						"api",
+						"Auth",
+						"Register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData=pm.response.json();\r",
+							"pm.collectionVariables.set(\"JwtToken\", responseData.token);\r",
+							"pm.collectionVariables.set(\"RefreshToken\", responseData.refreshToken);\r",
+							"//console.log(pm.collectionVariables.get(\"RefreshToken\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"ccube10\",\r\n    \"password\": \"pass123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5092/api/Auth/Login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5092",
+					"path": [
+						"api",
+						"Auth",
+						"Login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RefreshToken",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData=pm.response.json();\r",
+							"pm.collectionVariables.set(\"JwtToken\", responseData.token);\r",
+							"pm.collectionVariables.set(\"RefreshToken\", responseData.refreshToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Token\": \"{{JwtToken}}\",\r\n    \"refreshToken\": \"{{RefreshToken}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5092/api/Auth/RefreshToken",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5092",
+					"path": [
+						"api",
+						"Auth",
+						"RefreshToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5092/api/Test/Test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5092",
+					"path": [
+						"api",
+						"Test",
+						"Test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AuthorizedTest",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JwtToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5092/api/Test/AuthorizedTest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5092",
+					"path": [
+						"api",
+						"Test",
+						"AuthorizedTest"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "RefreshToken",
+			"value": "0",
+			"type": "string"
+		},
+		{
+			"key": "JwtToken",
+			"value": "0",
+			"type": "string"
+		}
+	]
+}
