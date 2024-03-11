@@ -118,7 +118,7 @@ namespace AuthServer.Api.Services
 
             var securityToken = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(20),
+                expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: signingCred
                 );
 
